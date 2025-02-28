@@ -2,24 +2,30 @@
 
 namespace App\Http\Controllers;
 
+use App\Models\UserModel;
 use Illuminate\Http\Request;
-use Illuminate\Support\Facades\DB;
+use Illuminate\Support\Facades\Hash;
 
 class UserController extends Controller
 {
     public function index()       
     {
-        // belum diubahh
-        // DB::insert('insert into m_user(user_id, level_id, username, nama, password) values(?, ?, ?, ?, ?)', ['CUS', 'Pelanggan', now()]);
-        // return 'Insert data baru berhasil';
+        // // tambah data user dengan Eluquenr Model
+        // $data = [
+        //     'username' => 'customer-1',
+        //     'nama' => 'Pelanggan',
+        //     'password' => Hash::make('12345'),
+        //     'level_id' => 7
+        // ];
+        // UserModel::insert($data); // tambahkan data ke table m_user
 
-        // $row = DB::update('update m_level set level_nama = ? where level_kode = ?', ['Customer', 'CUS']);
-        // return 'Update data berhasil. Jumlah data yang diupdate: '. $row.' baris';
+        $data = [
+            'nama' => 'Pelanggan Pertama'
+        ];
+        UserModel::where('username', 'customer-1') -> update($data); // update data user
 
-        // $row = DB::delete('delete from m_level where level_kode = ?', ['CUS']);
-        // return 'Delete data berhasil. Jumlah data yang dihapus: '. $row.' baris';
-
-        $data = DB::select('select * from m_user');
-        return view('user', ['data' => $data]);
+        // //  coba akses model UserModel
+        // $user = UserModel::all(); // ambil semua data dari tabel m_user
+        // return view('user', ['data' => $user]);
     }
 }
