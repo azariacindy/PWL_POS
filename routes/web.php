@@ -24,10 +24,10 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::get('/level', [LevelController::class, 'index'])->name('level.index');
-Route::get('/user', [UserController::class, 'index'])->name('user.index');
+Route::get('/level', [LevelController::class, 'index']);
+Route::get('/user', [UserController::class, 'index']);
 Route::get('/barang', [BarangController::class, 'index']);
-Route::get('/kategori', [KategoriController::class, 'index'])->name('kategori.index');
-Route::get('/stok', [StokController::class, 'index'])->name('stok.index');
+Route::get('/kategori', [KategoriController::class, 'index']);
+Route::get('/stok', [StokController::class, 'index']);
 Route::get('/penjualan', [PenjualanController::class, 'index']);
 Route::get('/penjualan_detail', [PenjualanDetailController::class, 'index']);

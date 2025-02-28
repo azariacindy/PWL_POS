@@ -9,16 +9,21 @@ class KategoriController extends Controller
 {
     public function index()
     {
-        // DB::insert('insert into m_kategori(kategori_kode, kategori_nama, created_at) values(?, ?, ?)', ['KTG001', 'Elektronik', now()]);
-        // return 'Insert data kategori berhasil';
+        // $data = [
+        //     'kategori_kode' => 'IKN',
+        //     'kategori_nama' => 'Ikan',
+        //     'created_at' => now()
+        // ];
+        // DB::table('m_kategori')-> insert($data);
+        // return 'Insert data kategori baru berhasil!';
 
-        // $row = DB::update('update m_kategori set kategori_nama = ? where kategori_kode = ?', ['Gadget', 'KTG001']);
-        // return 'Update data berhasil. Jumlah data yang diupdate: ' . $row . ' baris';
+        // $row = DB::table('m_kategori') -> where('kategori_kode', 'SNK') -> update(['kategori_nama' => 'Camilan']);
+        // return 'Update data kategori berhasil. Jumlah data yang diperbarui: '.$row.' baris';
+        
+        // $row = DB::table('m_kategori') -> where('kategori_kode', 'IKN') -> delete();
+        // return 'Delete data kategori berhasil. Jumlah data yang diperbarui: '.$row.' baris';
 
-        // $row = DB::delete('delete from m_kategori where kategori_kode = ?', ['KTG001']);
-        // return 'Delete data berhasil. Jumlah data yang dihapus: ' . $row . ' baris';
-
-        $data = DB::select('select * from m_kategori');
+        $data = DB::table('m_kategori') -> get();
         return view('kategori', ['data' => $data]);
     }
 }
