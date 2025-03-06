@@ -10,17 +10,22 @@ class UserController extends Controller
 {
     public function index()       
     {
-        // tambah data user dengan Eluquenr Model
-        $data = [
-            'level_id' => 2,
-            'username' => 'manager3',
-            'nama' => 'Mananger 3',
-            'password' => Hash::make('12345'),
-        ];
-        UserModel::create($data); // tambahkan data ke table m_user
+        $user = UserModel::findOr(20, ['username', 'nama'], function() {
+            abort(404);
+        });
+        return view ('user', ['data' => $user]);
 
-        $user = UserModel::all();
-        return view('user', ['data' => $user]);
+        // // tambah data user dengan Eluquenr Model
+        // $data = [
+        //     'level_id' => 2,
+        //     'username' => 'manager3',
+        //     'nama' => 'Mananger 3',
+        //     'password' => Hash::make('12345'),
+        // ];
+        // UserModel::create($data); // tambahkan data ke table m_user
+
+        // $user = UserModel::all();
+        // return view('user', ['data' => $user]);
 
         // $data = [
         //     'nama' => 'Pelanggan Pertama'
