@@ -1,4 +1,4 @@
-{{-- <!DOCTYPE html>
+<!DOCTYPE html>
 <html>
 <head>
     <title>Data User</title>
@@ -20,8 +20,9 @@
         </tr>
     </table>
 </body>
-</html> --}}
-<!DOCTYPE html>  
+</html>
+
+{{-- <!DOCTYPE html>  
 <html>  
 <head>  
     <title>Data User</title>  
@@ -34,4 +35,4 @@
     </tr>
     <td>{{ $data }}</td>  
 </body>  
-</html>
+</html> --}}
