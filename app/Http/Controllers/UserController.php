@@ -12,13 +12,31 @@ class UserController extends Controller
     {
         $user = UserModel::firstOrNew(
             [
-                'username' => 'manager33',
-                'nama' => 'Manager Tiga Tiga',
+                'username' => 'manager55',
+                'nama' => 'Manager55',
                 'password' => Hash::make('1234'),
                 'level_id' => 2
             ]
         );
-        $user->save();
+        $user->username = 'manager55';
+
+       // debugging perubahan data
+       dump($user->isDirty()); // true
+       dump($user->isDirty('username')); // true
+       dump($user->isDirty('nama')); // false
+       dump($user->isDirty(['nama', 'username'])); // true
+
+       dump($user->isClean()); // false
+       dump($user->isClean('username')); // false
+       dump($user->isClean('nama')); // true
+       dump($user->isClean(['nama', 'username'])); // false
+
+       // menyimpan perubahan
+       $user->save();
+
+       dump($user->isDirty()); // false
+       dump($user->isClean()); // true
+        
         return view ('user', ['data' => $user]);
 
         // // tambah data user dengan Eluquenr Model
@@ -38,7 +56,7 @@ class UserController extends Controller
         // ];
         // UserModel::where('username', 'customer-1') -> update($data); // update data user
 
-        // //  coba akses model UserModel
+        //  coba akses model UserModel
         // $user = UserModel::all(); // ambil semua data dari tabel m_user
         // return view('user', ['data' => $user]);
     }
