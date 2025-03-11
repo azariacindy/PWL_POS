@@ -5,6 +5,7 @@
 </head>
 <body>
     <h1>Data User</h1>
+    <a href="{{route('/user/tambah')}}">Tambah User</a>
     <table border="1" cellpadding="2" cellspacing="0">
         <tr>
             {{-- <th>Jumlah Pengguna</th> --}}
@@ -12,6 +13,7 @@
             <th>Username</th>
             <th>Nama</th>
             <th>ID Level Pengguna</th>
+            <th>Aksi</th>
         </tr>
         @foreach ($data as $d)
         <tr>
