@@ -23,7 +23,7 @@ class UserController extends Controller
         ];
         $activeMenu = 'user';
 
-        $level = LevelModel::all();
+        $level = LevelModel::all(); // ambil data level untuk filter level
         return view('user.index', ['breadcrumb' => $breadcrumb, 'page' => $page,'level' => $level, 'activeMenu' => $activeMenu]);
 
     }

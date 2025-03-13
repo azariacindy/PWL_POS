@@ -24,7 +24,7 @@
             <div class="row">
                 <div class="col-12">
                     <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Level</label>
+                        <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
                             <select class="form-control" id="level_id" name="level_id" required>
                                 <option value="">- Semua -</option>
