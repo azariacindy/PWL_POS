@@ -11,3 +11,4 @@
         Welcome! This is the main page of the Website.
     </div>
 </div>
+@endsection
