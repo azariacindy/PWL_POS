@@ -94,6 +94,69 @@ class UserController extends Controller
         return redirect('/user')->with('success', 'Data user berhasil ditambahkan');
     }
 
+    // menampilkan detail data user
+    public function show($id)
+    {
+        $breadcrumb = (object) [
+            'title' => 'Detail User',
+            'list' => ['Home', 'User', 'Detail']
+        ];
+        $page = (object) [
+            'title' => 'Detail user'
+        ];
+        $user = UserModel::with('level')->find($id);
+        $activeMenu = 'user';
+        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
+    }
+
+    // menampilkan halaman form edit user
+    public function edit(string $id)
+    {
+        $user = UserModel::find($id);
+        $level = LevelModel::all();
+        $breadcrumb = (object) [
+            'title' => 'Edit User',
+            'list' => ['Home', 'User', 'Edit']
+        ];
+        $page = (object) [
+            'title' => 'Edit user'
+        ];
+        $activeMenu = 'user'; // set menu yang sedang aktif
+        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
+    }
+
+    // menyimpan perubahan data user
+    public function update(Request $request, int $id)
+    {
+        $request->validate([
+            // username harus diisi, berupa string, minimal 3 karakter
+            // dan bernilai unik di table m_user kolom username kecuali untuk user dengan id yang sedang diedit
+            'username' => 'required | string | min:3 | unique:m_user,username,' . $id . ',user_id',
+            'nama' => 'required | string | max:100',  // nama harus diisi, berupa string dan maksimal 100 karakter
+            'password' => 'nullable | min:5',         // password bisa diisi (minimal 5 karakter)   dan bisa tidak diisi
+            'level_id' => 'required | integer'        // level_id harus diisi dan berupa angka
+        ]);
+
+        $user = UserModel::find($id);
+        $user->level_id = $request->level_id;
+        $user->username = $request->username;
+        $user->nama = $request->nama;
+        if ($request->password) {
+            $user->password = bcrypt($request->password);
+        }
+        $user->save();
+
+        return redirect('/user')->with('success', 'Data user berhasil diubah');
+    }
+
+    // ajax
+    public function show_ajax(String $id){
+        $user = UserModel::find($id);
+        $level = LevelModel::select('level_id', 'level_nama')->get();
+
+        return view('user.show_ajax', compact('user', 'level'));
+    }
+
     public function create_ajax(){
         $level = LevelModel::select('level_id', 'level_nama')->get();
         
@@ -136,37 +199,6 @@ class UserController extends Controller
         }
     }
 
-    // menampilkan detail data user
-    public function show($id)
-    {
-        $breadcrumb = (object) [
-            'title' => 'Detail User',
-            'list' => ['Home', 'User', 'Detail']
-        ];
-        $page = (object) [
-            'title' => 'Detail user'
-        ];
-        $user = UserModel::with('level')->find($id);
-        $activeMenu = 'user';
-        return view('user.show', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'activeMenu' => $activeMenu]);
-    }
-
-    // menampilkan halaman form edit user
-    public function edit(string $id)
-    {
-        $user = UserModel::find($id);
-        $level = LevelModel::all();
-        $breadcrumb = (object) [
-            'title' => 'Edit User',
-            'list' => ['Home', 'User', 'Edit']
-        ];
-        $page = (object) [
-            'title' => 'Edit user'
-        ];
-        $activeMenu = 'user'; // set menu yang sedang aktif
-        return view('user.edit', ['breadcrumb' => $breadcrumb, 'page' => $page, 'user' => $user, 'level' => $level, 'activeMenu' => $activeMenu]);
-    }
-
     // show halaman form edit user ajax
     public function edit_ajax(string $id)
     {
@@ -175,30 +207,6 @@ class UserController extends Controller
         $level = LevelModel::select('level_id', 'level_nama')->get();
 
         return view('user.edit_ajax', ['user' => $user, 'level' => $level]);
-    }
-
-    // menyimpan perubahan data user
-    public function update(Request $request, int $id)
-    {
-        $request->validate([
-            // username harus diisi, berupa string, minimal 3 karakter
-            // dan bernilai unik di table m_user kolom username kecuali untuk user dengan id yang sedang diedit
-            'username' => 'required | string | min:3 | unique:m_user,username,' . $id . ',user_id',
-            'nama' => 'required | string | max:100',  // nama harus diisi, berupa string dan maksimal 100 karakter
-            'password' => 'nullable | min:5',         // password bisa diisi (minimal 5 karakter)   dan bisa tidak diisi
-            'level_id' => 'required | integer'        // level_id harus diisi dan berupa angka
-        ]);
-
-        $user = UserModel::find($id);
-        $user->level_id = $request->level_id;
-        $user->username = $request->username;
-        $user->nama = $request->nama;
-        if ($request->password) {
-            $user->password = bcrypt($request->password);
-        }
-        $user->save();
-
-        return redirect('/user')->with('success', 'Data user berhasil diubah');
     }
 
     public function update_ajax(Request $request, $id){ 
@@ -284,94 +292,4 @@ class UserController extends Controller
             return redirect('/user')->with('error', 'Data user tidak bisa dihapus karena masih terdapat data terkait');
         }
     }
-
-    // public function tambah(){
-    //     return view('user_tambah');
-    // }
-
-    // public function tambah_simpan(Request $request){
-    //     UserModel::create([
-    //         'username' => $request->username,
-    //         'nama' => $request->nama,
-    //         'password' => Hash::make($request->password),
-    //         'level_id' => $request->level_id
-    //     ]);
-    //     return redirect('/user');
-    // }
-    
-    // public function ubah($id){
-    //     $user = UserModel::find($id);
-    //     return view('user_ubah', ['data' => $user]);
-    // }
-
-    // public function ubah_simpan($id, Request $request){
-    //     $user = UserModel::find($id);
-
-    //     $user->username = $request->username;
-    //     $user->nama = $request->nama;
-    //     $user->level_id = $request->level_id;
-
-    //     $user->save();
-    //     return redirect('/user');
-    // }
-
-    // public function hapus($id){
-    //     $user = UserModel::find($id);
-    //     $user->delete();
-
-    //     return redirect('/user');
-    // }
-
-    // public function index()       
-    // {
-    //     $user = UserModel::firstOrNew(
-    //         [
-    //             'username' => 'manager55',
-    //             'nama' => 'Manager55',
-    //             'password' => Hash::make('1234'),
-    //             'level_id' => 2
-    //         ]
-    //     );
-    //     $user->username = 'manager55';
-
-    //    // debugging perubahan data
-    //    dump($user->isDirty()); // true
-    //    dump($user->isDirty('username')); // true
-    //    dump($user->isDirty('nama')); // false
-    //    dump($user->isDirty(['nama', 'username'])); // true
-
-    //    dump($user->isClean()); // false
-    //    dump($user->isClean('username')); // false
-    //    dump($user->isClean('nama')); // true
-    //    dump($user->isClean(['nama', 'username'])); // false
-
-    //    // menyimpan perubahan
-    //    $user->save();
-
-    //    dump($user->isDirty()); // false
-    //    dump($user->isClean()); // true
-        
-    //     return view ('user', ['data' => $user]);
-
-        // // tambah data user dengan Eluquenr Model
-        // $data = [
-        //     'level_id' => 2,
-        //     'username' => 'manager3',
-        //     'nama' => 'Mananger 3',
-        //     'password' => Hash::make('12345'),
-        // ];
-        // UserModel::create($data); // tambahkan data ke table m_user
-
-        // $user = UserModel::all();
-        // return view('user', ['data' => $user]);
-
-        // $data = [
-        //     'nama' => 'Pelanggan Pertama'
-        // ];
-        // UserModel::where('username', 'customer-1') -> update($data); // update data user
-
-        //  coba akses model UserModel
-        // $user = UserModel::all(); // ambil semua data dari tabel m_user
-        // return view('user', ['data' => $user]);
-    // }
 }
