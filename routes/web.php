@@ -1,15 +1,14 @@
 <?php
 
 use Illuminate\Support\Facades\Route;
+use App\Http\Controllers\WelcomeController;
+use App\Http\Controllers\UserController;
+use App\Http\Controllers\LevelController;
 use App\Http\Controllers\BarangController;
 use App\Http\Controllers\KategoriController;
-use App\Http\Controllers\LevelController;
-
 use App\Http\Controllers\StokController;
 use App\Http\Controllers\PenjualanController;
 use App\Http\Controllers\PenjualanDetailController;
-use App\Http\Controllers\WelcomeController;
-use App\Http\Controllers\UserController;
 
 // Route::get('/', function () {
 //     return view('welcome');
@@ -34,6 +33,7 @@ use App\Http\Controllers\UserController;
 
 // Route :: get ('/public/user', [UserController::class, 'index' ]);
 // Route :: get ('/user', [UserController::class, 'index' ]);
+
 Route::get('/', [WelcomeController::class, 'index']);
 
 Route::group(['prefix' => 'user'], function () {
@@ -56,3 +56,22 @@ Route::group(['prefix' => 'user'], function () {
     Route:: delete('/{id}/delete_ajax', [UserController:: class, 'delete_ajax' ]); // Untuk hapus data user Ajax
 });
 
+Route::group(['prefix' => 'level'], function () {
+    Route::get('/', [LevelController::class, 'index']);                  
+    Route::post('/list', [LevelController::class, 'list']);              
+    Route::get('/create', [LevelController::class, 'create']);           
+    Route::post('/', [LevelController::class, 'store']);                 
+    Route::get('/{id}/show', [LevelController::class, 'show']);              
+    Route::get('/{id}/edit', [LevelController::class, 'edit']);          
+    Route::put('/{id}', [LevelController::class, 'update']);             
+    Route::delete('/{id}', [LevelController::class, 'destroy']);         
+
+    // ajax
+    Route::get('/{id}/show_ajax', [LevelController::class, 'show_ajax']);
+    Route::get('/create_ajax', [LevelController::class, 'create_ajax']); 
+    Route::post('/ajax', [LevelController::class, 'store_ajax']);        
+    Route::get('/{id}/edit_ajax', [LevelController::class, 'edit_ajax']);
+    Route::put('/{id}/update_ajax', [LevelController::class, 'update_ajax']);      
+    Route:: get('/{id}/delete_ajax', [LevelController:: class, 'confirm_ajax' ]);  
+    Route:: delete('/{id}/delete_ajax', [LevelController:: class, 'delete_ajax' ]);
+});
