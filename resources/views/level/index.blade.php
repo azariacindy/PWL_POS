@@ -5,20 +5,20 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('level/create') }}">Add New Level</a>
+                <button onclick="modalAction('{{ url('level/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add with Ajax</button>
             </div>
         </div>
         <div class="card-body">
             @if (session('success'))
                 <div class="alert alert-success alert-dismissible">
-                    <h5><i class="icon fas fa-check"></i> Berhasil</h5>
+                    <h5><i class="icon fas fa-check"></i>Successfully!</h5>
                     {{ session('success') }}
                 </div>
             @endif
             @if (session('error'))
                 <div class="alert alert-danger alert-dismissible">
-                    <h5><i class="icon fas fa-ban"></i> Kesalahan</h5>
+                    <h5><i class="icon fas fa-ban"></i>Error!</h5>
                     {{ session('error') }}
                 </div>
             @endif
@@ -28,21 +28,21 @@
                         <label class="col-1 control-label col-form-label">Filter:</label>
                         <div class="col-3">
                             <select class="form-control" id="level_id" name="level_id" required>
-                                <option value="">- Semua -</option>
+                                <option value="">- All -</option>
                                 @foreach ($level as $item)
                                     <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
                                 @endforeach
                             </select>
-                            <small class="form-text text-muted">Level Pengguna</small>
+                            <small class="form-text text-muted">User Level</small>
                         </div>
                     </div>
                     <table class="table table-bordered table-striped table-hover table-sm" id="table_level">
                         <thead>
                             <tr>
                                 <th>ID</th>
-                                <th>Kode Level</th>
-                                <th>Nama</th>
-                                <th>Aksi</th>
+                                <th>Level Code</th>
+                                <th>Name</th>
+                                <th>Action</th>
                             </tr>
                         </thead>
                     </table>
@@ -89,8 +89,8 @@
                             {
                                 data: "level_nama",
                                 className: "",
-                                orderable: false,
-                                searchable: false
+                                orderable: true,
+                                searchable: true
                             },
                             {
                                 data: "aksi",
