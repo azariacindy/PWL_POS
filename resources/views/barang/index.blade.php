@@ -5,43 +5,51 @@
         <div class="card-header">
             <h3 class="card-title">{{ $page->title }}</h3>
             <div class="card-tools">
-                <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Tambah</a>
-                <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Tambah Ajax</button>
+                <a class="btn btn-sm btn-primary mt-1" href="{{ url('barang/create') }}">Add New Item</a>
+                <button onclick="modalAction('{{ url('barang/create_ajax') }}')" class="btn btn-sm btn-success mt-1">Add with Ajax</button>
             </div>
         </div>
         <div class="card-body">
             @if (session('success'))
-                <div class="alert alert-success">{{ session('success') }}</div>
+                <div class="alert alert-success alert-dismissible">
+                    <h5><i class="icon fas fa-check"></i>Successfully!</h5>
+                    {{ session('success') }}
+                </div>
             @endif
             @if (session('error'))
-                <div class="alert alert-danger">{{ session('error') }}</div>
-            @endif
-            <div class="row">
-                <div class="col-md-12">
-                    <div class="form-group row">
-                        <label class="col-1 control-label col-form-label">Filter: </label>
-                        <div class="col-3">
-                            <select class="form-control" id="kategori_id" name="kategori_id" required>
-                                <option value="">- Semua -</option>
-                                @foreach($kategori as $item)
-                                    <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
-                                @endforeach
-                            </select>
-                            <small class="form-text text-muted">Kategori Barang</small>
-                        </div>
-                    </div>
+                <div class="alert alert-danger alert-dismissible">
+                    <h5><i class="icon fas fa-ban"></i>Error!</h5>
+                    {{ session('error') }}
                 </div>
-            </div>
+            @endif
+
+            <div class="row">
+                 <div class="col-md-12">
+                     <div class="form-group row">
+                         <label for="kategori_id" class="col-1 control-label col-form-label">Filter:</label>
+                         <div class="col-3">
+                             <select name="kategori_id" id="kategori_id" class="form-control" required>
+                                 <option value="">- All -</option>
+                                 @foreach ($kategori as $item)
+                                     <option value="{{ $item->kategori_id }}">{{ $item->kategori_nama }}</option>
+                                 @endforeach
+                             </select>
+                             <small class="form-text text-muted">Item Category</small>
+                         </div>
+                     </div>
+                 </div>
+             </div>
+
             <table class="table table-bordered table-striped table-hover table-sm" id="table_barang">
                 <thead>
                     <tr>
                         <th>ID</th>
-                        <th>Kode Barang</th>
-                        <th>Nama Kategori</th>
-                        <th>Nama Barang</th>
-                        <th>Harga Beli</th>
-                        <th>Harga Jual</th>
-                        <th>Aksi</th>
+                        <th>Item Code</th>
+                        <th>Category Name</th>
+                        <th>Item Name</th>
+                        <th>Buying Price</th>
+                        <th>Selling Price</th>
+                        <th>Action</th>
                     </tr>
                 </thead>
             </table>
