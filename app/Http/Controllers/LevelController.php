@@ -15,12 +15,12 @@ class LevelController extends Controller
     {
         return view('level.index', [
             'breadcrumb' => (object) [
-            'title' => 'User Level',
+            'title' => 'List of User Levels',
             'list' => ['Home', 'Level']
             ],
             'level' => LevelModel::all(),
             'page' => (object) [
-            'title' => 'Daftar level pengguna yang terdaftar dalam sistem'
+            'title' => 'List of user levels registered in the system'
             ],
             'activeMenu' => 'level'
         ]);
@@ -39,7 +39,7 @@ class LevelController extends Controller
             ->addColumn('aksi', function ($level) {
                 $btn = '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/show_ajax ').'\')" class="btn btn-info btn-sm">Detail</button> ';
                 $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/edit_ajax').'\')" class="btn btn-warning btn-sm">Edit</button> ';
-                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Hapus</button> ';
+                $btn .= '<button onclick="modalAction(\''.url('/level/' . $level->level_id . '/delete_ajax').'\')" class="btn btn-danger btn-sm">Delete</button> ';
     
                 return $btn;
             })
@@ -61,7 +61,7 @@ class LevelController extends Controller
         $level = LevelModel::find($id);
 
         if (!$level) {
-            return redirect('/level')->with('error', 'Data level tidak ditemukan');
+            return redirect('/level')->with('error', 'Level data not found!');
         }
 
         $activeMenu = 'level';
@@ -77,11 +77,11 @@ class LevelController extends Controller
     public function create()
     {
         $breadcrumb = (object) [
-            'title' => 'Tambah Level',
-            'list' => ['Home', 'Level', 'Tambah']
+            'title' => 'Add Level',
+            'list' => ['Home', 'Level', 'Add']
         ];
         $page = (object) [
-            'title' => 'Tambah level baru'
+            'title' => 'Add New Level'
         ];
         $level = LevelModel::all();
         $activeMenu = 'level';
@@ -113,20 +113,20 @@ class LevelController extends Controller
             'level_kode' => $request->level_kode,
             'level_nama' => $request->level_nama
         ]);
-        return redirect('/level')->with('success', 'Data level berhasil diubah');
+        return redirect('/level')->with('success', 'The level data was changed successfully!');
     }
 
     public function destroy(string $id)
     {
         $check = LevelModel::find($id);
         if (!$check) {
-            return redirect('/level')->with('error', 'Data level tidak ditemukan ');
+            return redirect('/level')->with('error', 'Level data not found!');
         }
         try {
             LevelModel::destroy($id);
-            return redirect('/level')->with('success', 'Data level berhasil dihapus');
+            return redirect('/level')->with('success', 'The level data was deleted successfully!');
         } catch (\Illuminate\Database\QueryException $e) {
-            return redirect('/level')->with('error', 'Data level gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini');
+            return redirect('/level')->with('error', 'The level data failed to be deleted because there are still other tables related to this data.');
         }
     }
 
@@ -143,7 +143,7 @@ class LevelController extends Controller
         ]);
 
         return redirect('/level')
-            ->with('success', 'Data level pengguna berhasil disimpan!');
+            ->with('success', 'Level data saved successfully!');
     }
 
     // ajax
@@ -170,7 +170,7 @@ class LevelController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     'status' => false,
-                    'message' => 'Validasi Gagal',
+                    'message' => 'Validation Failed!',
                     'msgField' => $validator->errors()
                 ]);
             }
@@ -178,7 +178,7 @@ class LevelController extends Controller
             LevelModel::create($request->all());
             return response()->json([
                 'status' => true,
-                'message' => 'Data level berhasil disimpan'
+                'message' => 'Level data saved successfully!'
             ]);
         }
         redirect('/');
@@ -203,7 +203,7 @@ class LevelController extends Controller
             if ($validator->fails()) {
                 return response()->json([
                     'status'   => false, 
-                    'message'  => 'Validasi gagal.',
+                    'message'  => 'Validation Failed!',
                     'msgField' => $validator->errors()
                 ]);
             }
@@ -215,12 +215,12 @@ class LevelController extends Controller
                 $check->update($request->all());
                 return response()->json([
                     'status'  => true,
-                    'message' => 'Data berhasil diupdate'
+                    'message' => ''
                 ]);
             } else {
                 return response()->json([
                     'status'  => false,
-                    'message' => 'Data tidak ditemukan'
+                    'message' => 'Level data not found!'
                 ]);
             }
         }
@@ -242,18 +242,18 @@ class LevelController extends Controller
                     LevelModel::destroy($id);
                     return response()->json([
                         'status'  => true,
-                        'message' => 'Data berhasil dihapus'
+                        'message' => 'Data deleted successfully!'
                     ]);
                 } catch (\Illuminate\Database\QueryException $e) {
                     return response()->json([
                         'status'  => false,
-                        'message' => 'Data level gagal dihapus karena masih terdapat tabel lain yang terkait dengan data ini'
+                        'message' => 'The level data failed to be deleted because there are still other tables related to this data.'
                     ]);
                 }
             }else{
                 return response()->json([
                     'status'  => false,
-                    'message' => 'Data tidak ditemukan'
+                    'message' => 'Level data not found!'
                 ]);
             }
     }
