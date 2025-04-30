@@ -35,6 +35,13 @@ use App\Http\Controllers\AuthController;
 // Route :: get ('/public/user', [UserController::class, 'index' ]);
 // Route :: get ('/user', [UserController::class, 'index' ]);
 
+// Auth
+Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter {id}, maka harus berupa angka
+
+Route::get('login', [AuthController::class, 'login'])->name('login');
+Route::post('login', [AuthController::class, 'postlogin']);
+Route::get('logout', [AuthController::class, 'logout'])->middleware('auth');
+
 Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam group ini harus login dulu
     Route::get('/', [WelcomeController::class, 'index']);
 
