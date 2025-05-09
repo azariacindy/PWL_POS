@@ -31,7 +31,7 @@ class AuthController extends Controller
             ], Response::HTTP_UNAUTHORIZED);
         }
         return response()->json([
-            'message' => 'Login Berhasil',
+            'message' => 'Login Berhasil!',
             'redirect' => url('/')
         ]);
     }
