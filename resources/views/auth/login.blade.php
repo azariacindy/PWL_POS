@@ -19,7 +19,7 @@
     <!-- SweetAlert2 -->
     <link rel="stylesheet" href="{{ asset('adminlte/plugins/sweetalert2-theme-bootstrap-4/bootstrap-4.min.css') }}">
     
-    @vite(['resources/js/app.js'])
+    {{-- @vite(['resources/js/app.js']) --}}
 </head>
 
 <body class="hold-transition login-page">

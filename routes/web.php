@@ -73,7 +73,9 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route:: get('/{id}/delete_ajax', [UserController:: class, 'confirm_ajax' ]);   // Untuk tampilkan form confirm delete user Ajax
             Route:: delete('/{id}/delete_ajax', [UserController:: class, 'delete_ajax' ]); // Untuk hapus data user Ajax
         });
-        
+    });
+
+    Route::middleware(['authorize:ADM'])->group(function(){
         // route level
         Route::group(['prefix' => 'level'], function () {
             Route::get('/', [LevelController::class, 'index']);                  
@@ -94,7 +96,10 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route:: get('/{id}/delete_ajax', [LevelController:: class, 'confirm_ajax' ]);  
             Route:: delete('/{id}/delete_ajax', [LevelController:: class, 'delete_ajax' ]);
         });
-        
+    });
+
+
+    Route::middleware(['authorize:ADM, MNG'])->group(function(){
         // route kategori
         Route::group(['prefix' => 'kategori'], function () {
             Route::get('/', [KategoriController::class, 'index']);
@@ -113,7 +118,7 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
         });
     });
 
-    Route::middleware(['authorize: STF, MNG, ADM'])->group(function () {
+    Route::middleware(['authorize:ADM, MNG, STF'])->group(function(){
         // route barang
         Route::group(['prefix' => 'barang'], function () {
             Route::get('/', [BarangController::class, 'index']);
@@ -127,15 +132,17 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route::post('/ajax', [BarangController::class, 'store_ajax']);
             Route::get('/{id}/edit_ajax', [BarangController::class, 'edit_ajax']);
             Route::put('/{id}/update_ajax', [BarangController::class, 'update_ajax']);      
-            Route:: get('/{id}/delete_ajax', [BarangController:: class, 'confirm_ajax' ]);  
-            Route:: delete('/{id}/delete_ajax', [BarangController:: class, 'delete_ajax' ]);
+            Route::get('/{id}/delete_ajax', [BarangController:: class, 'confirm_ajax' ]);  
+            Route::delete('/{id}/delete_ajax', [BarangController:: class, 'delete_ajax' ]);
 
-            Route::get('/barang/import', [BarangController::class, 'import']); // ajax form upload excel
-            Route::post('/barang/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
+            Route::get('/import', [BarangController::class, 'import']); // ajax form upload excel
+            Route::post('/import', [BarangController::class, 'import_ajax'])->name('import.import_ajax'); // ajax import excel
             Route::get('/export/excel', [BarangController::class, 'export_excel']); // export excel
             Route::get('/export/pdf', [BarangController::class, 'export_pdf']); // export pdf
         });
-        
+    });
+
+    Route::middleware(['authorize:ADM, MNG, STF'])->group(function(){
         // route stok
         Route::group(['prefix' => 'stok'], function () {
             Route::get('/', [StokController::class, 'index']);
@@ -156,8 +163,9 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route::get('/{id}/show_ajax', [StokController::class, 'show_ajax']);
             Route::delete('/{id}', [StokController::class, 'destroy']);
         });
-        
-        
+    });
+
+    Route::middleware(['authorize:ADM, MNG, STF'])->group(function(){
         // route penjualan
         Route::group(['prefix' => 'penjualan'], function () {
             Route::get('/', [PenjualanController::class, 'index']);
@@ -175,6 +183,35 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route::get('/{id}/delete_ajax', [PenjualanController::class, 'confirm_ajax']);
             Route::delete('/{id}/delete_ajax', [PenjualanController::class, 'delete_ajax']);
             Route::delete('/{id}', [PenjualanController::class, 'destroy']);
+        });
+    });
+
+    Route::middleware(['authorize:ADM, MNG, STF'])->group(function(){
+        // route detail penjualan
+        Route::group(['prefix' => 'penjualan_detail'], function () {
+            Route::get('/', [PenjualanDetailController::class, 'index']);
+            Route::post('/list', [PenjualanDetailController::class, 'list']);
+            Route::get('/create', [PenjualanDetailController::class, 'create']);
+            Route::post('/', [PenjualanDetailController::class, 'store']);
+            Route::get('/create_ajax', [PenjualanDetailController::class, 'create_ajax']);
+            Route::post('/ajax', [PenjualanDetailController::class, 'store_ajax']);
+            Route::get('/{id}', [PenjualanDetailController::class, 'show']);
+            Route::get('/{id}/edit', [PenjualanDetailController::class, 'edit']);
+            Route::put('/{id}', [PenjualanDetailController::class, 'update']);
+            Route::get('/{id}/edit_ajax', [PenjualanDetailController::class, 'edit_ajax']);
+            Route::put('/{id}/update_ajax', [PenjualanDetailController::class, 'update_ajax']);
+            Route::get('/{id}/delete_ajax', [PenjualanDetailController::class, 'confirm_ajax']);
+            Route::delete('/{id}/delete_ajax', [PenjualanDetailController::class, 'delete_ajax']);
+            Route::delete('/{id}', [PenjualanDetailController::class, 'destroy']);
+            Route::post('/penjualan-detail/store_ajax', [PenjualanDetailController::class, 'store_ajax']);
+            Route::get('/{id}/show_ajax', [PenjualanDetailController::class, 'show_ajax']);
+
+            // Route::post('t_penjualan_detail/list', [PenjualanDetailController::class, 'list']);
+            Route::get('/penjualan-detail', [PenjualanDetailController::class, 'index'])->name('penjualan-detail.index');
+            Route::get('/penjualan-detail/create', [PenjualanDetailController::class, 'create'])->name('penjualan-detail.create');
+            Route::post('/penjualan-detail', [PenjualanDetailController::class, 'store'])->name('penjualan-detail.store');
+            Route::get('/penjualan-detail', [PenjualanDetailController::class, 'index'])->name('penjualan-detail.index');
+
         });
     });
 });
