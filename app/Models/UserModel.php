@@ -12,7 +12,7 @@ class UserModel extends Authenticatable
 
     protected $table = 'm_user'; // table yang digunakan oleh model ini
     protected $primaryKey = 'user_id'; // primary key dari table
-    protected $fillable = ['username', 'password', 'nama', 'level_id', 'created_at', 'updated_at'];
+    protected $fillable = ['username', 'password', 'nama', 'level_id', 'created_at', 'updated_at', 'image'];
 
     protected $hidden = ['password']; // jangan di tampilkan saat select
 
@@ -40,5 +40,12 @@ class UserModel extends Authenticatable
     public function getRole()
     {
         return $this->level->level_kode;
+    }
+
+    public function getProfilePictureUrl()
+    {
+        return $this->image
+            ? asset($this->image)
+            : asset('adminlte/dist/img/img.png');
     }
 }
