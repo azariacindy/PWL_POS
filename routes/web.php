@@ -136,7 +136,7 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
             Route::delete('/{id}/delete_ajax', [BarangController:: class, 'delete_ajax' ]);
 
             Route::get('/import', [BarangController::class, 'import']); // ajax form upload excel
-            Route::post('/import', [BarangController::class, 'import_ajax'])->name('import.import_ajax'); // ajax import excel
+            Route::post('/import_ajax', [BarangController::class, 'import_ajax']); // ajax import excel
             Route::get('/export/excel', [BarangController::class, 'export_excel']); // export excel
             Route::get('/export/pdf', [BarangController::class, 'export_pdf']); // export pdf
         });

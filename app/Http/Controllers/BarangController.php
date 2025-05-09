@@ -11,6 +11,7 @@ use Symfony\Component\HttpFoundation\Response;
 use PhpOffice\PhpSpreadsheet\IOFactory;
 use PhpOffice\PhpSpreadsheet\Spreadsheet;
 use Barryvdh\DomPDF\Facade\Pdf;
+use PhpOffice\PhpSpreadsheet\Reader\Xlsx;
 
 class BarangController extends Controller
 {
@@ -102,14 +103,6 @@ class BarangController extends Controller
 
     public function store_ajax(Request $request)
     {
-        $request->validate([
-            'kategori_id' => 'required|integer',
-            'barang_kode' => 'required|string|min:3|unique:m_barang,barang_kode',
-            'barang_nama' => 'required|string|min:3|unique:m_barang,barang_nama',
-            'harga_beli' => 'required|integer',
-            'harga_jual' => 'required|integer'
-        ]);
-
         if ($request->ajax() || $request->wantsJson()) {
             $rules = [
                 'kategori_id' => 'required|integer',
@@ -139,7 +132,7 @@ class BarangController extends Controller
                 'message' => 'Data barang berhasil disimpan'
             ]);
         }
-        redirect('/');
+        return redirect('/');
     }
 
     public function edit_ajax(string $id)
@@ -186,7 +179,7 @@ class BarangController extends Controller
                 ]);
             }
         }
-        redirect('/');
+        return redirect('/');
     }
 
     public function confirm_ajax(string $id)
@@ -219,10 +212,10 @@ class BarangController extends Controller
                 ]);
             }
     }
-        redirect('/');
+        return redirect('/');
     }
 
-    public function showimport()
+    public function import()
     {
         return view('barang.import');
     }
@@ -248,7 +241,8 @@ class BarangController extends Controller
 
         $file = $req->file('file_barang');
 
-        $reader = IOFactory::createReader('xlsx');
+        // $reader = IOFactory::createReader('xlsx');
+        $reader = new Xlsx();
         $reader->setReadDataOnly(true);
         $spreadsheet = $reader->load($file->getRealPath());
         $sheet = $spreadsheet->getActiveSheet();
@@ -269,11 +263,10 @@ class BarangController extends Controller
                     'kategori_id' => $val['A'],
                     'barang_kode' => $val['B'],
                     'barang_nama' => $val['C'],
-                    'supplier_id' => $val['D'],
-                    'harga_beli' => $val['E'],
-                    'harga_jual' => $val['F'],
+                    'harga_beli' => $val['D'],
+                    'harga_jual' => $val['E'],
                     'created_at' => now(),
-                    'updated_at' => now()
+
                 ];
             }
         }

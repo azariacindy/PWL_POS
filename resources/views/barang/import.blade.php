@@ -3,7 +3,7 @@
     <div id="modal-master" class="modal-dialog modal-lg" role="document">
         <div class="modal-content">
             <div class="modal-header">
-                <h5 class="modal-title" id="exampleModalLabel">Import Data Barang</h5>
+                <h5 class="modal-title" id="exampleModalLabel">Import Data Item</h5>
                 <button type="button" class="close" data-dismiss="modal" aria- label="Close"><span
                         aria-hidden="true">&times;</span></button>
             </div>
@@ -12,19 +12,16 @@
                     <label>Download Template</label>
                     <a href="{{ asset('template_barang.xlsx') }}" class="btn btn-info btn- sm" download><i
                             class="fa fa-file-excel"></i>Download</a>
-                    <small id="error-kategori_id" class="error-text form-text text-
-    danger"></small>
+                    <small id="error-kategori_id" class="error-text form-text text-danger"></small>
                 </div>
                 <div class="form-group">
                     <label>Pilih File</label>
-                    <input type="file" name="file_barang" id="file_barang" class="form-
-    control" required>
-                    <small id="error-file_barang" class="error-text form-text text-
-    danger"></small>
+                    <input type="file" name="file_barang" id="file_barang" class="form-control" required>
+                    <small id="error-file_barang" class="error-text form-text text-danger"></small>
                 </div>
             </div>
             <div class="modal-footer">
-                <button type="button" data-dismiss="modal" class="btn btn- warning">Batal</button>
+                <button type="button" data-dismiss="modal" class="btn btn- warning">Cancel</button>
                 <button type="submit" class="btn btn-primary">Upload</button>
             </div>
         </div>
