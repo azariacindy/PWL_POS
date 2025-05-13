@@ -3,6 +3,7 @@
 namespace App\Http\Controllers;
 
 use App\Models\UserModel;
+use App\Models\LevelModel;
 use Illuminate\Http\Request;
 use Illuminate\Support\Facades\Auth;
 use Symfony\Component\HttpFoundation\Response;
@@ -46,7 +47,8 @@ class AuthController extends Controller
     
     public function showSignup()
     {
-        return view('auth.signup');
+        $level = LevelModel::all();
+        return view('auth.signup',compact ('level'));
     }
 
     public function postSignup(Request $req)
@@ -58,7 +60,8 @@ class AuthController extends Controller
         $validator = Validator::make($req->all(), [
             'username' => 'required|string|min:5|max:20|unique:m_user,username',
             'nama' => 'required|string|min:5|max:100',
-            'password' => 'required|string|min:6|confirmed'
+            'password' => 'required|string|min:6|confirmed',
+            'level_id' => 'required|exists:m_level,level_id'
         ]);
 
         if ($validator->fails()) {
@@ -71,14 +74,14 @@ class AuthController extends Controller
         $user = UserModel::create( [ 
             'username' => $req->username,
             'nama' => $req->nama,
-            'level_id' => 3,        // level id for 'Staff/Kasir'
+            'level_id' => $req->level_id,
             'password' => Hash::make($req->password)
         ]);
 
         Auth::login($user);
         
         return response()->json([
-            'message' => 'Data pengguna berhasil dibuat',
+            'message' => '',
             'redirect' => url('/')
         ], Response::HTTP_OK);
     }

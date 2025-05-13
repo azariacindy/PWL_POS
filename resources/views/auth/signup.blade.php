@@ -66,6 +66,22 @@
                             </div>
                         </div>
 
+                        {{-- Drop down --}}
+                        <div class="input-group mb-3">
+                            <select name="level_id" class="form-control">
+                                <option value="" disabled selected>Select User Level</option>
+                                
+                                    @foreach($level as $item)
+                                        <option value="{{ $item->level_id }}">{{ $item->level_nama }}</option>
+                                    @endforeach                                
+                            </select>
+                            <div class="input-group-append">
+                                <div class="input-group-text">
+                                    <span class="fas fa-user-tag"></span>
+                                </div>
+                            </div>
+                        </div>
+
                         <div class="row">
                             <div class="col-8">
                                 <a href="{{ route('login') }}">Sudah punya akun?</a>

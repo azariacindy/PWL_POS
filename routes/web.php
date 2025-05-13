@@ -32,8 +32,8 @@ use App\Http\Controllers\AuthController;
 // //jobsheet 5
 // Route::get('/',[WelcomeController::class,'index']);
 
-// Route :: get ('/public/user', [UserController::class, 'index' ]);
-// Route :: get ('/user', [UserController::class, 'index' ]);
+// Route ::get ('/public/user', [UserController::class, 'index' ]);
+// Route ::get ('/user', [UserController::class, 'index' ]);
 
 // Auth
 Route::pattern('id', '[0-9]+'); // artinya ketika ada parameter {id}, maka harus berupa angka
@@ -215,6 +215,7 @@ Route::middleware(['auth'])->group(function(){ // artinya semua route di dalam g
         });
     });
 });
+
 
 
 // Route::get('/', [WelcomeController::class, 'index']); 
