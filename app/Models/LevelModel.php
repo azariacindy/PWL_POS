@@ -15,4 +15,10 @@ class LevelModel extends Model
         'level_kode',
         'level_nama',
     ];
+
+    // public function getRouteKeyName()
+    // {
+    //     return 'level_kode';
+    // }
+
 }
