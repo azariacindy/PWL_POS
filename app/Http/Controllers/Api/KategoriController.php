@@ -4,57 +4,57 @@ namespace App\Http\Controllers\Api;
 
 use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
-use App\Models\UserModel;
+use App\Models\KategoriModel;
 
 
-class UserController extends Controller
+class KategoriController extends Controller
 {
     public function index(){
-        return UserModel::all();
+        return KategoriModel::all();
     }
 
     public function store(Request $request){
-        $user = UserModel::create($request->all());
+        $kategori = KategoriModel::create($request->all());
 
-        return response()->json($user, 201);
+        return response()->json($kategori, 201);
     }
 
-    public function show(UserModel $user){
-        return UserModel::find($user);
+    public function show(KategoriModel $kategori){
+        return KategoriModel::find($kategori);
     }
 
-    public function update(Request $request, $user_id)
+    public function update(Request $request, $kategori_id)
     {
-        $user = UserModel::where('user_id', $user_id)->first();
+        $kategori = KategoriModel::where('kategori_id', $kategori_id)->first();
 
-        if (!$user) {
+        if (!$kategori) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data not found'
             ], 404);
         }
 
-        $user->update($request->all());
+        $kategori->update($request->all());
 
         return response()->json([
             'success' => true,
             'message' => 'Data updated successfully',
-            'data' => $user
+            'data' => $kategori
         ]);
     }
 
-    public function destroy($user_kode)
+    public function destroy($kategori_kode)
     {
-        $user = UserModel::where('user_kode', $user_kode)->first();
+        $kategori = KategoriModel::where('kategori_kode', $kategori_kode)->first();
 
-        if (!$user) {
+        if (!$kategori) {
             return response()->json([
                 'success' => false,
                 'message' => 'Data not found'
             ], 404);
         }
 
-        $user->delete();
+        $kategori->delete();
 
         return response()->json([
             'success' => true,

@@ -43,27 +43,6 @@ class LevelController extends Controller
         ]);
     }
 
-    public function updateByKode(Request $request, $level_kode)
-    {
-        $level = LevelModel::where('level_kode', $level_kode)->first();
-
-        if (!$level) {
-            return response()->json([
-                'success' => false,
-                'message' => 'Data not found'
-            ], 404);
-        }
-
-        $level->update($request->all());
-
-        return response()->json([
-            'success' => true,
-            'message' => 'Data updated successfully',
-            'data' => $level
-        ]);
-    }
-
-
     public function destroy($level_kode)
     {
         $level = LevelModel::where('level_kode', $level_kode)->first();
