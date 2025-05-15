@@ -31,7 +31,7 @@ class RegisterController extends Controller
             'nama' => $request->nama,
             'password' => bcrypt($request->password),
             'level_id' => $request->level_id,
-            'image' => $request->image
+            'image' => bcrypt($request->image)
         ]);
 
         // return response JSON user is created
