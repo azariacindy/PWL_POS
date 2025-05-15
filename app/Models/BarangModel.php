@@ -18,11 +18,19 @@ class BarangModel extends Model
         'barang_nama',
         'barang_kode',
         'harga_beli',
-        'harga_jual'
+        'harga_jual', 
+        'image'
     ];
 
     public function kategori(): BelongsTo
     {
         return $this->belongsTo(KategoriModel::class, 'kategori_id', 'kategori_id');
+    }
+
+    public function getImgURL()
+    {
+        return $this->image
+            ? asset($this->image)
+            : asset('adminlte/dist/img/avatar.png');
     }
 }
